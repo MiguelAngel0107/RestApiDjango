@@ -28,7 +28,7 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS=[
-
+    'apps.user',
 ]
 
 ECOMMERCE_APPS=[
@@ -172,3 +172,14 @@ AUTHENTICATION_BACKENDS = (
 )
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+if not DEBUG:
+    DEFAULT_FROM_EMAIL = 'Vudera - Academia de Software <mail@vudera.com>'
+    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
