@@ -1,6 +1,6 @@
 import Layout from '../../hocs/layout'
 
-export default function Signup() {
+function Signup() {
     return ( 
       <Layout>
         <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -146,3 +146,5 @@ export default function Signup() {
       </Layout>
     )
   }
+
+  export default Signup
