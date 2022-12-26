@@ -25,7 +25,7 @@ function Signup() {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.name })
 
     const onSubmit = e => {
-        e.preventDefault(),
+        e.preventDefault();
         console.log(formData)
     }
 
