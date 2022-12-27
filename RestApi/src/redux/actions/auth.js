@@ -33,14 +33,14 @@ export const signup = (
             })
         }else{
             dispatch({
-                type: SIGNUP_FAIL,,
+                type: SIGNUP_FAIL,
                 payload: res.data
             })
         }
     }catch(err){
         dispatch({
             type: SIGNUP_FAIL,
-            payload: res.data
+            //payload: res.data
         })
     }
 }

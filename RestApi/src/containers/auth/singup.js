@@ -1,10 +1,13 @@
 import Layout from '../../hocs/layout'
 import { useState, useEffect } from 'react'
-
-function Signup() {
+import { connect } from 'react-redux'
+import { signup } from '../../redux/actions/auth'
+function Signup({ signup }) {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
+
+    const [accountCreated, setAccountCreated] = useState(false);
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -26,7 +29,15 @@ function Signup() {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(formData)
+        signup(
+            first_name,
+            last_name,
+            email,
+            password,
+            re_password,
+        )
+        setAccountCreated(true);
+
     }
 
     return (
@@ -49,7 +60,7 @@ function Signup() {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <form onSubmit={e=>onSubmit(e)} className="space-y-6">
+                        <form onSubmit={e => onSubmit(e)} className="space-y-6">
 
                             <div>
                                 <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">
@@ -59,6 +70,7 @@ function Signup() {
                                     <input
                                         name="first_name"
                                         value={first_name}
+                                        onChange={e => onChange(e)}
                                         type="text"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -74,6 +86,7 @@ function Signup() {
                                     <input
                                         name="last_name"
                                         value={last_name}
+                                        onChange={e => onChange(e)}
                                         type="text"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -89,6 +102,7 @@ function Signup() {
                                     <input
                                         name="email"
                                         value={email}
+                                        onChange={e => onChange(e)}
                                         type="email"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -104,6 +118,7 @@ function Signup() {
                                     <input
                                         name="password"
                                         value={password}
+                                        onChange={e => onChange(e)}
                                         type="password"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -119,6 +134,7 @@ function Signup() {
                                     <input
                                         name="re_password"
                                         value={re_password}
+                                        onChange={e => onChange(e)}
                                         type="password"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -162,4 +178,10 @@ function Signup() {
     )
 }
 
-export default Signup
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps,{
+    signup
+}) (Signup)
