@@ -24,7 +24,9 @@ export const signup = (
     })
 
     try{
+
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/`, body, config)   
+        
         if (res.status === 201){
             dispatch({
                 type: SIGNUP_SUCCESS,
