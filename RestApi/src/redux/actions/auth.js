@@ -65,7 +65,7 @@ export const signup = (
 export const activate = (
     uid,
     token
-) => async dispatch =>{
+) => async dispatch => {
     dispatch({
         type: SET_AUTH_LOADING
     });
