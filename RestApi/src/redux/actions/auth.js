@@ -2,7 +2,9 @@ import {
     SIGNUP_FAIL, 
     SIGNUP_SUCCESS,
     ACTIVATION_FAIL,
-    ACTIVATION_SUCCESS, 
+    ACTIVATION_SUCCESS,
+    SET_AUTH_LOADING,
+    REMOVE_AUTH_LOADING, 
 } from './types'
 import axios from 'axios'
 
@@ -14,6 +16,10 @@ export const signup = (
     password,
     re_password
 ) => async dispatch => {
+    dispatch({
+        type:SET_AUTH_LOADING
+    });
+
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -41,10 +47,18 @@ export const signup = (
                 type: SIGNUP_FAIL,
             })
         }
+
+        dispatch({
+            type:REMOVE_AUTH_LOADING
+        });
+
     }catch(err){
         dispatch({
             type: SIGNUP_FAIL,
         })
+        dispatch({
+            type:REMOVE_AUTH_LOADING
+        });
     }
 }
 
@@ -52,6 +66,10 @@ export const activate = (
     uid,
     token
 ) => async dispatch =>{
+    dispatch({
+        type: SET_AUTH_LOADING
+    });
+
     const config = {
         headers: {
             'Content-Type': 'application/json'
