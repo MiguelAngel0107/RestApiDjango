@@ -25,7 +25,7 @@ function Signup({ signup }) {
         re_password,
     } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.name })
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const onSubmit = e => {
         e.preventDefault();
