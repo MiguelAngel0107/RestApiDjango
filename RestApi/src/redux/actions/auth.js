@@ -94,11 +94,19 @@ export const activate = (
             })
         }
 
+        dispatch({
+            type:REMOVE_AUTH_LOADING
+        });
+
     }
     catch(err){
         dispatch({
             type:ACTIVATION_FAIL
         })
+
+        dispatch({
+            type:REMOVE_AUTH_LOADING
+        });
     }
 
 }

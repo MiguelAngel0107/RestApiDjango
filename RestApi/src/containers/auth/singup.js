@@ -2,7 +2,9 @@ import Layout from '../../hocs/layout'
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { signup } from '../../redux/actions/auth'
-function Signup({ signup }) {
+const Signup = ({ 
+    signup 
+}) => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
