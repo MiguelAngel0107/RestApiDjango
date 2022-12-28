@@ -9,6 +9,10 @@ import {
     LOGIN_SUCCESS,
     USER_LOADED_FAIL,
     USER_LOADED_SUCCESS,
+    AUTHENTICATED_FAIL,
+    AUTHENTICATED_SUCCESS,
+    REFRESH_FAIL,
+    REFRESH_SUCCESS,
 } from '../actions/types'
 
 const initialState = {
@@ -42,6 +46,11 @@ export default function Auth(state = initialState, action) {
             return {
                 ...state,
             user: payload
+            }
+        case AUTHENTICATED_SUCCESS:
+            return {
+                ...state,
+                isAuthenticated:true
             }
         case LOGIN_SUCCESS:
             localStorage.setItem('access', payload.access);
