@@ -7,6 +7,7 @@ import {
     REMOVE_AUTH_LOADING, 
 } from './types'
 import axios from 'axios'
+import {setAlert} from './alert'
 
 
 export const signup = (
@@ -41,6 +42,9 @@ export const signup = (
             dispatch({
                 type: SIGNUP_SUCCESS,
                 payload: res.data
+            })
+            dispatch({
+                
             })
         }else{
             dispatch({
