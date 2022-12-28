@@ -55,7 +55,7 @@ export const signup = (
                 type: SIGNUP_FAIL,
             });
             dispatch(
-                setAlert('Error al crear cuenta', 'red')
+                setAlert('Error al crear cuenta','red')
             );
         }
 
@@ -144,7 +144,7 @@ export const login = (
                 type:REMOVE_AUTH_LOADING
             });
             dispatch(load_user());
-            dispatch(setAlert('Inicio de sesión con éxito', 'green'));
+            dispatch(setAlert('Inicio de sesión con éxito','green'));
         } else {
             dispatch({
                 type: LOGIN_FAIL
