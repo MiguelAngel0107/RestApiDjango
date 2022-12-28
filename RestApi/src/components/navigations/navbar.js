@@ -21,6 +21,9 @@ import {
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
+import Alert from '../alert'
+
+
 
 const solutions = [
     {
@@ -86,6 +89,7 @@ function classNames(...classes) {
 
 export function Navbar() {
     return (
+        <>
         <Popover className="relative bg-white">
             <div className="absolute inset-0 shadow z-30 pointer-events-none" aria-hidden="true" />
             <div className="relative z-20">
@@ -97,7 +101,7 @@ export function Navbar() {
                                 className="h-8 w-auto sm:h-10"
                                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                                 alt=""
-                            />
+                                />
                         </Link>
                     </div>
                     <div className="-mr-2 -my-2 md:hidden">
@@ -115,16 +119,16 @@ export function Navbar() {
                                             className={classNames(
                                                 open ? 'text-gray-900' : 'text-gray-500',
                                                 'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                            )}
-                                        >
+                                                )}
+                                                >
                                             <span>Solutions</span>
                                             <ChevronDownIcon
                                                 className={classNames(
                                                     open ? 'text-gray-600' : 'text-gray-400',
                                                     'ml-2 h-5 w-5 group-hover:text-gray-500'
-                                                )}
-                                                aria-hidden="true"
-                                            />
+                                                    )}
+                                                    aria-hidden="true"
+                                                    />
                                         </Popover.Button>
 
                                         <Transition
@@ -135,14 +139,14 @@ export function Navbar() {
                                             leave="transition ease-in duration-150"
                                             leaveFrom="opacity-100 translate-y-0"
                                             leaveTo="opacity-0 -translate-y-1"
-                                        >
+                                            >
                                             <Popover.Panel className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white">
                                                 <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
                                                     {solutions.map((item) => (
                                                         <a
-                                                            key={item.name}
-                                                            href={item.href}
-                                                            className="-m-3 p-3 flex flex-col justify-between rounded-lg hover:bg-gray-50"
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className="-m-3 p-3 flex flex-col justify-between rounded-lg hover:bg-gray-50"
                                                         >
                                                             <div className="flex md:h-full lg:flex-col">
                                                                 <div className="flex-shrink-0">
@@ -170,7 +174,7 @@ export function Navbar() {
                                                                 <a
                                                                     href={item.href}
                                                                     className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
-                                                                >
+                                                                    >
                                                                     <item.icon className="flex-shrink-0 h-6 w-6 text-gray-400" aria-hidden="true" />
                                                                     <span className="ml-3">{item.name}</span>
                                                                 </a>
@@ -197,15 +201,15 @@ export function Navbar() {
                                                 open ? 'text-gray-900' : 'text-gray-500',
                                                 'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                             )}
-                                        >
+                                            >
                                             <span>More</span>
                                             <ChevronDownIcon
                                                 className={classNames(
                                                     open ? 'text-gray-600' : 'text-gray-400',
                                                     'ml-2 h-5 w-5 group-hover:text-gray-500'
-                                                )}
-                                                aria-hidden="true"
-                                            />
+                                                    )}
+                                                    aria-hidden="true"
+                                                    />
                                         </Popover.Button>
 
                                         <Transition
@@ -216,7 +220,7 @@ export function Navbar() {
                                             leave="transition ease-in duration-150"
                                             leaveFrom="opacity-100 translate-y-0"
                                             leaveTo="opacity-0 -translate-y-1"
-                                        >
+                                            >
                                             <Popover.Panel className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg">
                                                 <div className="absolute inset-0 flex">
                                                     <div className="bg-white w-1/2" />
@@ -232,7 +236,7 @@ export function Navbar() {
                                                                         <a
                                                                             href={item.href}
                                                                             className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
-                                                                        >
+                                                                            >
                                                                             <item.icon className="flex-shrink-0 h-6 w-6 text-gray-400" aria-hidden="true" />
                                                                             <span className="ml-4">{item.name}</span>
                                                                         </a>
@@ -248,7 +252,7 @@ export function Navbar() {
                                                                         <a
                                                                             href={item.href}
                                                                             className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-50"
-                                                                        >
+                                                                            >
                                                                             <item.icon className="flex-shrink-0 h-6 w-6 text-gray-400" aria-hidden="true" />
                                                                             <span className="ml-4">{item.name}</span>
                                                                         </a>
@@ -299,7 +303,7 @@ export function Navbar() {
                             <Link
                                 to="/signup"
                                 className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                            >
+                                >
                                 Sign up
                             </Link>
                         </div>
@@ -315,11 +319,11 @@ export function Navbar() {
                 leave="duration-100 ease-in"
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
-            >
+                >
                 <Popover.Panel
                     focus
                     className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
-                >
+                    >
                     <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
                         <div className="pt-5 pb-6 px-5 sm:pb-8">
                             <div className="flex items-center justify-between">
@@ -328,7 +332,7 @@ export function Navbar() {
                                         className="h-8 w-auto"
                                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                                         alt="Workflow"
-                                    />
+                                        />
                                 </div>
                                 <div className="-mr-2">
                                     <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -342,9 +346,9 @@ export function Navbar() {
                                     <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
                                         {solutions.map((item) => (
                                             <a
-                                                key={item.name}
-                                                href={item.href}
-                                                className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
+                                            key={item.name}
+                                            href={item.href}
+                                            className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
                                             >
                                                 <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
                                                     <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -392,7 +396,7 @@ export function Navbar() {
                                 <a
                                     href="#"
                                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                                >
+                                    >
                                     Sign up
                                 </a>
                                 <p className="mt-6 text-center text-base font-medium text-gray-500">
@@ -407,6 +411,8 @@ export function Navbar() {
                 </Popover.Panel>
             </Transition>
         </Popover>
+        <Alert/>
+        </>
     )
 }
 
