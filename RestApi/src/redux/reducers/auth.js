@@ -7,6 +7,8 @@ import {
     REMOVE_AUTH_LOADING,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
+    USER_LOADED_FAIL,
+    USER_LOADED_SUCCESS,
 } from '../actions/types'
 
 const initialState = {
@@ -30,6 +32,16 @@ export default function Auth(state = initialState, action) {
             return {
                 ...state,
                 loading:false
+            }
+        case USER_LOADED_FAIL: 
+            return {
+                ...state,
+                user:null
+            }
+        case USER_LOADED_SUCCESS:
+            return {
+                ...state,
+            user: payload
             }
         case LOGIN_SUCCESS:
             localStorage.setItem('access', payload.access);
@@ -59,7 +71,7 @@ export default function Auth(state = initialState, action) {
         case SIGNUP_SUCCESS:
             //This has payload
         case SIGNUP_FAIL:
-            
+
         default:
             return state
     }

@@ -143,6 +143,7 @@ export const login = (
             dispatch({
                 type:REMOVE_AUTH_LOADING
             });
+            dispatch(load_user());
             dispatch(setAlert('Inicio de sesión con éxito', 'green'));
         } else {
             dispatch({
