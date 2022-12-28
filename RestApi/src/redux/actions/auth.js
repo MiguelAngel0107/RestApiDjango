@@ -7,6 +7,8 @@ import {
     REMOVE_AUTH_LOADING, 
     LOGIN_FAIL,
     LOGIN_SUCCESS, 
+    USER_LOADED_FAIL,
+    USER_LOADED_SUCCESS,
 } from './types'
 import axios from 'axios'
 import {setAlert} from './alert'
@@ -71,6 +73,42 @@ export const signup = (
         dispatch(
             setAlert('Error con el servidor, intenta mas tarde', 'red')
         );
+    }
+}
+
+
+export const load_user = (
+
+) => async dispatch => {
+    if(localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config)
+            if (res.status === 200) {
+                dispatch({
+                    type: USER_LOADED_SUCCESS,
+                    payload: res.data
+                });
+            } else {
+                dispatch({
+                    type:USER_LOADED_FAIL
+                });
+            }
+        }
+        catch(err){
+            dispatch({
+                type:USER_LOADED_FAIL
+            });
+        }
+    } else {
+        dispatch({
+            type:USER_LOADED_FAIL
+        });
     }
 }
 
