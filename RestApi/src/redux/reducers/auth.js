@@ -30,11 +30,13 @@ export default function Auth(state = initialState, action) {
                 loading:false
             }
         case ACTIVATION_SUCCESS:
+
         case ACTIVATION_FAIL:
             return {
                 ...state
             }
         case SIGNUP_SUCCESS:
+            //This has payload
         case SIGNUP_FAIL:
             localStorage.removeItem('access')
             localStorage.removeItem('refresh')
