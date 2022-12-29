@@ -52,6 +52,15 @@ export default function Auth(state = initialState, action) {
                 ...state,
                 isAuthenticated:true
             }
+        case AUTHENTICATED_FAIL:
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            return {
+                ...state,
+                isAuthenticated: false,
+                access: null,
+                refresh: null
+            }
         case LOGIN_SUCCESS:
             localStorage.setItem('access', payload.access);
             localStorage.setItem('refresh', payload.refresh);
@@ -62,6 +71,20 @@ export default function Auth(state = initialState, action) {
                 refresh: localStorage.getItem('refresh')
             }
         case LOGIN_FAIL:
+            
+        case ACTIVATION_SUCCESS:
+
+        case ACTIVATION_FAIL:
+            return {
+                ...state
+            }
+        case REFRESH_SUCCESS:
+            localStorage.setItem('access'. payload.access);
+            return {
+                ...state,
+                access: localStorage.getItem('access')
+            }
+        case REFRESH_FAIL:
             localStorage.removeItem('access')
             localStorage.removeItem('refresh')
             return{
@@ -70,12 +93,6 @@ export default function Auth(state = initialState, action) {
                 refresh:null,
                 isAuthenticated:false,
                 user:null,
-            }
-        case ACTIVATION_SUCCESS:
-
-        case ACTIVATION_FAIL:
-            return {
-                ...state
             }
         case SIGNUP_SUCCESS:
             //This has payload
