@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Navbar } from "../components/navigations/navbar";
+import Navbar from "../components/navigations/navbar";
 import { Footer } from "../components/navigations/footer";
 
 import { check_authenticated, load_user, refresh } from '../redux/actions/auth';
