@@ -75,11 +75,11 @@ export default function Auth(state = initialState, action) {
         case ACTIVATION_SUCCESS:
 
         case ACTIVATION_FAIL:
-            return {
-                ...state
-            }
+            //return {
+            //    ...state
+            //}
         case REFRESH_SUCCESS:
-            localStorage.setItem('access'. payload.access);
+            localStorage.setItem('access', payload.access);
             return {
                 ...state,
                 access: localStorage.getItem('access')
