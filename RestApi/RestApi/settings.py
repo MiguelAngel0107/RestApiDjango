@@ -33,7 +33,7 @@ PROJECT_APPS=[
 ]
 
 ECOMMERCE_APPS=[
-
+    'apps.category',
 ]
 
 THIRD_PARTY_APPS=[
