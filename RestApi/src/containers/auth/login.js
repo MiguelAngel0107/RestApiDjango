@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../redux/actions/auth'
 import Loader from 'react-loader-spinner'
+import { Link } from 'react-router-dom'
 
 const Login = ({
     login,
@@ -43,6 +44,12 @@ const Login = ({
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <p className="mt-2 text-center text-sm text-gray-600">
+                        Or{' '}
+                        <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+                            Signup
+                        </Link>
+                    </p>
                 </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -95,9 +102,9 @@ const Login = ({
                                 </div>
 
                                 <div className="text-sm">
-                                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                    <Link to="/reset_password" className="font-medium text-indigo-600 hover:text-indigo-500">
                                         Forgot your password?
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 
