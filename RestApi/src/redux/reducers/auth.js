@@ -13,6 +13,7 @@ import {
     AUTHENTICATED_SUCCESS,
     REFRESH_FAIL,
     REFRESH_SUCCESS,
+    LOGOUT,
 } from '../actions/types'
 
 const initialState = {
@@ -85,6 +86,12 @@ export default function Auth(state = initialState, action) {
                 access: localStorage.getItem('access')
             }
         case REFRESH_FAIL:
+            
+        case SIGNUP_SUCCESS:
+            //This has payload
+        case SIGNUP_FAIL:
+
+        case LOGOUT:
             localStorage.removeItem('access')
             localStorage.removeItem('refresh')
             return{
@@ -94,10 +101,6 @@ export default function Auth(state = initialState, action) {
                 isAuthenticated:false,
                 user:null,
             }
-        case SIGNUP_SUCCESS:
-            //This has payload
-        case SIGNUP_FAIL:
-
         default:
             return state
     }

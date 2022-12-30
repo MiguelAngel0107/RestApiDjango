@@ -1,5 +1,6 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Popover, Transition, Menu } from '@headlessui/react'
+import { Navigate } from 'react-router-dom'
 import {
     BookmarkAltIcon,
     BriefcaseIcon,
@@ -22,6 +23,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 import Alert from '../alert'
+import { logout } from '../../redux/actions/auth'
 import { connect } from 'react-redux'
 
 
@@ -91,11 +93,21 @@ function classNames(...classes) {
 
 function Navbar({
     isAuthenticated,
-    user
+    user,
+    logout
 }) {
+    const [redirect, setRedirect] = useState(false);
+    const logoutHandler = () => {
+        logout()
+        setRedirect(true)
+    }
+    if (redirect){
+        window.location.reload(false)
+        return <Navigate to='/' />;
+    } 
 
     const authLinks = (
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block text-left" >
             <div>
                 <Menu.Button className="inline-flex justify-center w-full rounded-full  text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                     <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
@@ -136,7 +148,7 @@ function Navbar({
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        //onClick={logoutHandler}
+                                        onClick={logoutHandler}
                                         className={classNames(
                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'block w-full text-left px-4 py-2 text-sm'
@@ -495,5 +507,5 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-
+    logout
 })(Navbar)
