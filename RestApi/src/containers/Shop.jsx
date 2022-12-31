@@ -75,14 +75,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+//---------------------------------------------------------------------//
+
+
 const Shop = ({
     get_categories,
+    categories
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
     useEffect(()=>{
         get_categories()
     },[])
+
+    //const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
 
     return(
         <Layout>
@@ -129,13 +136,64 @@ const Shop = ({
                 <form className="mt-4 border-t border-gray-200">
                   <h3 className="sr-only">Categories</h3>
                   <ul role="list" className="font-medium text-gray-900 px-2 py-3">
-                    {subCategories.map((category) => (
-                      <li key={category.name}>
-                        <a href={category.href} className="block px-2 py-3">
-                          {category.name}
-                        </a>
-                      </li>
-                    ))}
+                    {
+                      categories &&
+                      categories !== null &&
+                      categories !== undefined &&
+                      categories.map(category => {
+                          if (category.sub_categories.length === 0){
+                              return (
+                                  <div key={category.id} className=' flex items-center h-5 my-5'>
+                                      <input
+                                          name='category_id'
+                                          //onChange={e => onChange(e)}
+                                          value={category.id.toString()}
+                                          type='radio'
+                                          className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                      />
+                                      <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                          {category.name}
+                                      </label>
+                                  </div>
+                              )
+                          } else {
+                              let result = []
+                              result.push(
+                                  <div key={category.id} className='flex items-center h-5'>
+                                      <input
+                                          name='category_id'
+                                          //onChange={e => onChange(e)}
+                                          value={category.id.toString()}
+                                          type='radio'
+                                          className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                      />
+                                      <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                          {category.name}
+                                      </label>
+                                  </div>
+                              )
+
+                              category.sub_categories.map(sub_category => {
+                                  result.push(
+                                      <div key={sub_category.id} className='flex items-center h-5 ml-2 my-5'>
+                                          <input
+                                              name='category_id'
+                                              //onChange={e => onChange(e)}
+                                              value={sub_category.id.toString()}
+                                              type='radio'
+                                              className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                          />
+                                          <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                              {sub_category.name}
+                                          </label>
+                                      </div>
+                                  )
+                              })
+
+                              return result
+                          }
+                      })
+                    }
                   </ul>
 
                   {filters.map((section) => (
@@ -259,11 +317,58 @@ const Shop = ({
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200">
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
-                  ))}
+                {
+                        categories &&
+                        categories !== null &&
+                        categories !== undefined &&
+                        categories.map(category => {
+                            if (category.sub_categories.length === 0){
+                                return (
+                                    <div key={category.id} className=' flex items-center h-5 my-5'>
+                                        <input
+                                            name='category_id'
+                                            type='radio'
+                                            className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                        />
+                                        <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                            {category.name}
+                                        </label>
+                                    </div>
+                                )
+                            } else {
+                                let result = []
+                                result.push(
+                                    <div key={category.id} className='flex items-center h-5'>
+                                        <input
+                                            name='category_id'
+                                            type='radio'
+                                            className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                        />
+                                        <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                            {category.name}
+                                        </label>
+                                    </div>
+                                )
+
+                                category.sub_categories.map(sub_category => {
+                                    result.push(
+                                        <div key={sub_category.id} className='flex items-center h-5 ml-2 my-5'>
+                                            <input
+                                                name='category_id'
+                                                type='radio'
+                                                className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                            />
+                                            <label className="ml-3 min-w-0 flex-1 text-gray-500">
+                                                {sub_category.name}
+                                            </label>
+                                        </div>
+                                    )
+                                })
+
+                                return result
+                            }
+                        })
+                    }
                 </ul>
 
                 {filters.map((section) => (
@@ -326,7 +431,7 @@ const Shop = ({
 }
 
 const mapStateToProps = state => ({
-
+  categories: state.Categories.categories,
 })
 
 export default connect(mapStateToProps,{
