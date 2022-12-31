@@ -34,6 +34,7 @@ PROJECT_APPS=[
 
 ECOMMERCE_APPS=[
     'apps.category',
+    'apps.products',
 ]
 
 THIRD_PARTY_APPS=[
