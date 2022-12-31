@@ -11,12 +11,13 @@ import {
     PlusSmIcon, 
     ViewGridIcon 
 } from '@heroicons/react/solid'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 import Layout from '../hocs/layout'
 
 import { connect } from 'react-redux'
-import {get_categories} from '../redux/actions/categories'
+import { get_categories } from '../redux/actions/categories'
+
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -74,9 +75,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Shop = (
-) => {
+const Shop = ({
+    get_categories,
+}) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+    useEffect(()=>{
+        get_categories()
+    },[])
 
     return(
         <Layout>
@@ -319,4 +325,10 @@ const Shop = (
     )
 }
 
-export default Shop
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps,{
+    get_categories,
+})(Shop)
