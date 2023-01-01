@@ -47,3 +47,75 @@ class ListProductsView(APIView):
             return Response(
                 {'error': 'Limit must be an integer'},
                 status = status.HTTP_404_NOT_FOUND)
+
+        if limit <= 0:
+            limit = 6
+
+        if order == 'desc':
+            sortBy = '-' + sortBy
+            products = Product.objects.order_by(sortBy).all()[:int(limit)]
+        elif order == 'asc':
+            products = Product.objects.order_by(sortBy).all()[:int(limit)]
+        else: 
+            products = Product.objects.order_by(sortBy).all()
+
+        products = ProductSerializer(products, many=True)
+
+        if products:
+            return Response({'products': products.data},status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {'error': 'No products to list'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+class ListSearchView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        data = self.request.data
+
+        try:
+            category_id = int(data['category_id'])
+        except:
+            return Response(
+                {'error': 'Category ID must be an integer'},
+                status=status.HTTP_404_NOT_FOUND)
+
+        search = data['search']
+
+        if len(search) == 0:
+            search_result = Product.objects.order_by('-data_created').all()
+        else:
+            search_result = Product.objects.filter(
+                Q(description_icotains = search) | Q(name_icontains = search))
+
+        if category_id == 0:
+            search_result = ProductSerializer(search_result, many=True)
+            return Response(
+                {'search_products': search_result.data},
+                status=status.HTTP_200_OK)
+
+        #Revisar si existe categoria
+        if not Category.objects.filter(id=category_id).exists():
+            return Response(
+                {'error': 'Category ID must be an integer'},
+                status=status.HTTP_404_NOT_FOUND)
+
+        category = Category.objects.get(id=category_id)
+
+        if category.parent:
+            # Si ka categoria tiene padre, filtrar solo la categoria  y no el padre
+            search_result = search_result.order_by('-date_created').filter(category=category)
+        else:
+            # Si esta categoria padre no tiene hijos, filtrar sola la categoria
+            if not Category.objects.filter(parent=category).exists():
+                search_result = search_result.order_by('-date_created').filter(category=category)
+            else:
+                categories = Category.objects.filter(parent=category)
+                filtered_categories = [category]
+
+                for cat in categories:
+                    filtered_categories.append(cat)
+                
+                filtered_categories = tuple()
