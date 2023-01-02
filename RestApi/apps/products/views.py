@@ -9,7 +9,7 @@ from apps.category.models import Category
 from django.db.models import Q
 
 class ProductDetailView(APIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny, )
 
     def get(self, request, productId, format=None):
         try:
@@ -18,15 +18,16 @@ class ProductDetailView(APIView):
             return Response(
                 {'error': 'Product ID must be an integer'},
                 status=status.HTTP_404_NOT_FOUND)
-        if(Product.objects.filter(id=product_id).exists()):
+        
+        if Product.objects.filter(id=product_id).exists():
             product = Product.objects.get(id=product_id)
+
             product = ProductSerializer(product)
-            return Response({
-                'product': product.data
-            }, status==status.HTTP_200_OK)
+
+            return Response({'product': product.data}, status=status.HTTP_200_OK)
         else:
             return Response(
-                {'error':'Product with this ID does not exits'},
+                {'error': 'Product with this ID does not exist'},
                 status=status.HTTP_404_NOT_FOUND)
 
 class ListProductsView(APIView):
@@ -85,7 +86,7 @@ class ListSearchView(APIView):
         search = data['search']
 
         if len(search) == 0:
-            search_result = Product.objects.order_by('-data_created').all()
+            search_result = Product.objects.order_by('-date_created').all()
         else:
             search_result = Product.objects.filter(
                 Q(description_icotains = search) | Q(name_icontains = search))
