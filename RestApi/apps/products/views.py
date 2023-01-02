@@ -68,6 +68,7 @@ class ListProductsView(APIView):
                 {'error': 'No products to list'},
                 status=status.HTTP_404_NOT_FOUND
             )
+
 class ListSearchView(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -190,7 +191,6 @@ class ListRelatedView(APIView):
             return Response(
                 {'error': 'No related products found'},
                 status=status.HTTP_200_OK)
-
 
 class ListBySearchView(APIView):
     permission_classes = (permissions.AllowAny, )
