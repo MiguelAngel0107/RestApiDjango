@@ -83,11 +83,11 @@ const ProductDetail = ({
           
           {/* Product info */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">{prod && prod.name}</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">{prod.name}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl text-gray-900">${prod && prod.price}</p>
+              <p className="text-3xl text-gray-900">${prod.price}</p>
             </div>
 
             {/* Reviews */}
