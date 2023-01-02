@@ -185,12 +185,12 @@ class ListRelatedView(APIView):
                     status=status.HTTP_200_OK)
             else:
                 return Response(
-                    {'error': 'No related products found'},
+                    {'error': 'No related products found 1'},
                     status=status.HTTP_200_OK)
             
         else:
             return Response(
-                {'error': 'No related products found'},
+                {'error': 'No related products found 2'},
                 status=status.HTTP_200_OK)
 
 class ListBySearchView(APIView):
