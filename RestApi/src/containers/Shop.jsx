@@ -156,12 +156,13 @@ const Shop = ({
         });
       }
 
-      for (let i = 0; i < display.length; i += 3) {
+      for (let i = 0; i < display.length; i += 4) {
         results.push(
-          <div key={i} className='grid md:grid-cols-3 '>
+          <div key={i} className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
               {display[i] ? display[i] : <div className=''></div>}
               {display[i+1] ? display[i+1] : <div className=''></div>}
               {display[i+2] ? display[i+2] : <div className=''></div>}
+              {display[i+3] ? display[i+3] : <div className=''></div>}
           </div>
         )
       }
@@ -498,8 +499,9 @@ const Shop = ({
               <div className="lg:col-span-3">
                 {/* Replace with your content */} {/* border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full */}
                 <div className="" >
-                {/*  
+
                 <div className="bg-white">
+                {/*
                   <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                     <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Lo mas reciente</h2>
             
@@ -532,10 +534,13 @@ const Shop = ({
                       ))}
                     </div>
                   </div>
-                </div>
-                  */}
+                
+                */}
 
                   {products && showProducts()}
+
+                </div>
+
                 </div>
 
               </div>
