@@ -73,6 +73,10 @@ const ProductDetail = ({
       get_related_products(productId)
     }, [])
 
+    // Espera de Carga del Servidor
+    let p 
+    prod ? p = prod : p = product
+    
     
     return(
         <Layout>
@@ -80,14 +84,14 @@ const ProductDetail = ({
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
           {/* Image gallery */}
-          
+          <ImageGallery photo={p.photo}/>
           {/* Product info */}
           <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">{prod.name}</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">{p.name}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl text-gray-900">${prod.price}</p>
+              <p className="text-3xl text-gray-900">${p.price}</p>
             </div>
 
             {/* Reviews */}
@@ -115,7 +119,7 @@ const ProductDetail = ({
 
               <div
                 className="text-base text-gray-700 space-y-6"
-                dangerouslySetInnerHTML={{ __html: prod.description }}
+                dangerouslySetInnerHTML={{ __html: p.description }}
               />
             </div>
             
