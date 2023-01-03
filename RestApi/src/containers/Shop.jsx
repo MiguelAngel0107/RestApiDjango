@@ -20,6 +20,7 @@ import { get_categories } from '../redux/actions/categories'
 import { get_products, get_filtered_products } from '../redux/actions/products'
 import { Link } from "react-router-dom"
 import ProductCard from '../components/product/ProductCard'
+import { prices } from '../helpers/fixedPrices'
 
 
 const sortOptions = [
@@ -112,6 +113,7 @@ const Shop = ({
         
     },[])
 
+
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
     const onSubmit = e => {
       e.preventDefault()
@@ -124,6 +126,7 @@ const Shop = ({
       setFiltered(true)
     }
 
+  
     const showProducts = () => {
       let results = []
       let display = []
@@ -213,7 +216,7 @@ const Shop = ({
                 </div>
 
                 {/* Filters */}
-                <form className="mt-4 border-t border-gray-200">
+                <form onSubmit={e => onSubmit(e)} className="mt-4 border-t border-gray-200">
                   <h3 className="sr-only">Categories</h3>
                   <ul role="list" className="font-medium text-gray-900 px-2 py-3">
                     {
@@ -226,7 +229,7 @@ const Shop = ({
                                   <div key={category.id} className=' flex items-center h-5 my-5'>
                                       <input
                                           name='category_id'
-                                          //onChange={e => onChange(e)}
+                                          onChange={e => onChange(e)}
                                           value={category.id.toString()}
                                           type='radio'
                                           className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
@@ -242,7 +245,7 @@ const Shop = ({
                                   <div key={category.id} className='flex items-center h-5'>
                                       <input
                                           name='category_id'
-                                          //onChange={e => onChange(e)}
+                                          onChange={e => onChange(e)}
                                           value={category.id.toString()}
                                           type='radio'
                                           className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
@@ -258,7 +261,7 @@ const Shop = ({
                                       <div key={sub_category.id} className='flex items-center h-5 ml-2 my-5'>
                                           <input
                                               name='category_id'
-                                              //onChange={e => onChange(e)}
+                                              onChange={e => onChange(e)}
                                               value={sub_category.id.toString()}
                                               type='radio'
                                               className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
@@ -276,48 +279,122 @@ const Shop = ({
                     }
                   </ul>
 
-                  {filters.map((section) => (
-                    <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">{section.name}</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-6">
-                              {section.options.map((option, optionIdx) => (
-                                <div key={option.value} className="flex items-center">
-                                  <input
-                                    id={`filter-mobile-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                  <label
-                                    htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                    className="ml-3 min-w-0 flex-1 text-gray-500"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
+                  <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                    <h3 className="-mx-2 -my-3 flow-root">
+                      <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                        <span className="font-sofiapro-regular text-gray-900">Prices</span>
+                        <span className="ml-6 flex items-center">
+                          {open ? (
+                            <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          ) : (
+                            <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-6">
+                          {
+                              prices && prices.map((price, index) => {
+                                  if (price.id === 0) {
+                                      return (
+                                          <div key={index} className='form-check'>
+                                              <input
+                                                  onChange={e => onChange(e)}
+                                                  value={price.name}
+                                                  name='price_range'
+                                                  type='radio'
+                                                  className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                                  defaultChecked
+                                              />
+                                              <label className='ml-3 min-w-0 flex-1 text-gray-500 font-sofiapro-light'>{price.name}</label>
+                                          </div>
+                                      )
+                                  } else {
+                                      return (
+                                          <div key={index} className='form-check'>
+                                              <input
+                                                  onChange={e => onChange(e)}
+                                                  value={price.name}
+                                                  name='price_range'
+                                                  type='radio'
+                                                  className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                              />
+                                              <label className='ml-3 min-w-0 flex-1 text-gray-500 font-sofiapro-light'>{price.name}</label>
+                                          </div>
+                                      )
+                                  }
+                              })
+                          }
+                        </div>
+                      </Disclosure.Panel>
+                    </h3>
+                    </>
+                  )}
+                  </Disclosure>
+
+
+                  <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                    <h3 className="-mx-2 -my-3 flow-root">
+                      <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                        <span className="font-sofiapro-regular text-gray-900">Mas Filtros</span>
+                        <span className="ml-6 flex items-center">
+                          {open ? (
+                            <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          ) : (
+                            <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-6">
+                          <div className='form-group '>
+                              <label htmlFor='sortBy' className='mr-3 min-w-0 flex-1 text-gray-500'
+                              >Ver por</label>
+                                <select
+                                    className='my-2 font-sofiapro-light inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
+                                    id='sortBy'
+                                    name='sortBy'
+                                    onChange={e => onChange(e)}
+                                    value={sortBy}
+                                >
+                                  <option value='date_created'>Fecha</option>
+                                  <option value='price'>Precio</option>
+                                  <option value='sold'>Sold</option>
+                                  <option value='title'>Nombre</option>
+
+                                </select>
+                          </div>
+                          <div className='form-group'>
+                              <label htmlFor='order' className='mr-3 min-w-0 flex-1 text-gray-500'
+                              >Orden</label>
+                              <select
+                                  className='my-2 font-sofiapro-light inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
+                                  id='order'
+                                  name='order'
+                                  onChange={e => onChange(e)}
+                                  value={order}
+                              >
+                                  <option value='asc'>A - Z</option>
+                                  <option value='desc'>Z - A</option>
+                              </select>
+                          </div>
+                        </div>
+                      </Disclosure.Panel>
+                    </h3>
+                    </>
+                  )}
+                  </Disclosure>
+
+                  <button
+                    type="submit"
+                    className="float-right inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Buscar
+                  </button>
                 </form>
               </div>
             </Transition.Child>
@@ -394,7 +471,7 @@ const Shop = ({
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
               {/* Filters */}
-              <form className="hidden lg:block">
+              <form onSubmit={e => onSubmit(e)} className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200">
                 {
@@ -407,6 +484,8 @@ const Shop = ({
                                     <div key={category.id} className=' flex items-center h-5 my-5'>
                                         <input
                                             name='category_id'
+                                            onChange={e => onChange(e)}
+                                            value={category.id.toString()}
                                             type='radio'
                                             className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
                                         />
@@ -421,6 +500,8 @@ const Shop = ({
                                     <div key={category.id} className='flex items-center h-5'>
                                         <input
                                             name='category_id'
+                                            onChange={e => onChange(e)}
+                                            value={category.id.toString()}
                                             type='radio'
                                             className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
                                         />
@@ -435,6 +516,8 @@ const Shop = ({
                                         <div key={sub_category.id} className='flex items-center h-5 ml-2 my-5'>
                                             <input
                                                 name='category_id'
+                                                onChange={e => onChange(e)}
+                                                value={sub_category.id.toString()}
                                                 type='radio'
                                                 className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
                                             />
@@ -451,48 +534,122 @@ const Shop = ({
                     }
                 </ul>
 
-                {filters.map((section) => (
-                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                    {({ open }) => (
-                      <>
-                        <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">{section.name}</span>
-                            <span className="ml-6 flex items-center">
-                              {open ? (
-                                <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              ) : (
-                                <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
-                              <div key={option.value} className="flex items-center">
-                                <input
-                                  id={`filter-${section.id}-${optionIdx}`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  defaultChecked={option.checked}
-                                  className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${section.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
-                                >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </Disclosure.Panel>
-                      </>
-                    )}
+                <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                    <h3 className="-mx-2 -my-3 flow-root">
+                      <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                        <span className="font-sofiapro-regular text-gray-900">Prices</span>
+                        <span className="ml-6 flex items-center">
+                          {open ? (
+                            <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          ) : (
+                            <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-6">
+                          {
+                              prices && prices.map((price, index) => {
+                                  if (price.id === 0) {
+                                      return (
+                                          <div key={index} className='form-check'>
+                                              <input
+                                                  onChange={e => onChange(e)}
+                                                  value={price.name}
+                                                  name='price_range'
+                                                  type='radio'
+                                                  className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                                  defaultChecked
+                                              />
+                                              <label className='ml-3 min-w-0 flex-1 text-gray-500 font-sofiapro-light'>{price.name}</label>
+                                          </div>
+                                      )
+                                  } else {
+                                      return (
+                                          <div key={index} className='form-check'>
+                                              <input
+                                                  onChange={e => onChange(e)}
+                                                  value={price.name}
+                                                  name='price_range'
+                                                  type='radio'
+                                                  className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded-full'
+                                              />
+                                              <label className='ml-3 min-w-0 flex-1 text-gray-500 font-sofiapro-light'>{price.name}</label>
+                                          </div>
+                                      )
+                                  }
+                              })
+                          }
+                        </div>
+                      </Disclosure.Panel>
+                    </h3>
+                    </>
+                  )}
                   </Disclosure>
-                ))}
+
+
+                  <Disclosure as="div" className="border-t border-gray-200 px-4 py-6">
+                  {({ open }) => (
+                    <>
+                    <h3 className="-mx-2 -my-3 flow-root">
+                      <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                        <span className="font-sofiapro-regular text-gray-900">Mas Filtros</span>
+                        <span className="ml-6 flex items-center">
+                          {open ? (
+                            <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          ) : (
+                            <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="pt-6">
+                        <div className="space-y-6">
+                          <div className='form-group '>
+                              <label htmlFor='sortBy' className='mr-3 min-w-0 flex-1 text-gray-500'
+                              >Ver por</label>
+                                <select
+                                    className='my-2 font-sofiapro-light inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
+                                    id='sortBy'
+                                    name='sortBy'
+                                    onChange={e => onChange(e)}
+                                    value={sortBy}
+                                >
+                                  <option value='date_created'>Fecha</option>
+                                  <option value='price'>Precio</option>
+                                  <option value='sold'>Sold</option>
+                                  <option value='title'>Nombre</option>
+
+                                </select>
+                          </div>
+                          <div className='form-group'>
+                              <label htmlFor='order' className='mr-3 min-w-0 flex-1 text-gray-500'
+                              >Orden</label>
+                              <select
+                                  className='my-2 font-sofiapro-light inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
+                                  id='order'
+                                  name='order'
+                                  onChange={e => onChange(e)}
+                                  value={order}
+                              >
+                                  <option value='asc'>A - Z</option>
+                                  <option value='desc'>Z - A</option>
+                              </select>
+                          </div>
+                        </div>
+                      </Disclosure.Panel>
+                    </h3>
+                    </>
+                  )}
+                  </Disclosure>
+
+                  <button
+                    type="submit"
+                    className="float-right inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Buscar
+                  </button>
               </form>
 
               {/* Product grid */}

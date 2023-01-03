@@ -4,7 +4,7 @@ from django.contrib import admin
 from apps.products.models import Product
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'compare_price',
+    list_display = ('id', 'name', 'category','compare_price',
                     'price', 'quantity', 'sold', )
     list_display_links = ('id', 'name', )
     list_filter = ('category', )
