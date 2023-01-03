@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { get_categories } from '../redux/actions/categories'
 import { get_products, get_filtered_products } from '../redux/actions/products'
 import { Link } from "react-router-dom"
+import ProductCard from '../components/product/ProductCard'
 
 
 const sortOptions = [
@@ -90,14 +91,84 @@ const Shop = ({
     filtered_products,
 }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [filtered, setFiltered] = useState(false)
+    const [formData, setFormData] = useState({
+      category_id: '0',
+      price_range: 'Any',
+      sortBy: 'created',
+      order: 'desc'
+    })
+    const {
+      category_id,
+      price_range,
+      sortBy,
+      order
+    } = formData
 
     useEffect(()=>{
+        window.scrollTo(0,0)
         get_categories()
         get_products()
         
     },[])
 
-    //const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
+    const onSubmit = e => {
+      e.preventDefault()
+      get_filtered_products(
+        category_id,
+        price_range,
+        sortBy,
+        order
+      )
+      setFiltered(true)
+    }
+
+    const showProducts = () => {
+      let results = []
+      let display = []
+
+      if (
+        filtered_products &&
+        filtered_products !== null &&
+        filtered_products !== undefined &&
+        filtered
+      ) {
+        filtered_products.map((product, index) => {
+            return display.push(
+                <div key={index}>
+                    <ProductCard product={product}/>
+                </div>
+            );
+        });
+      } else if (
+          !filtered && 
+          products &&
+          products !== null && 
+          products !== undefined
+      ) {
+          products.map((product, index) => {
+            return display.push(
+                <div key={index}>
+                    <ProductCard product={product}/>
+                </div>
+            );
+        });
+      }
+
+      for (let i = 0; i < display.length; i += 3) {
+        results.push(
+          <div key={i} className='grid md:grid-cols-3 '>
+              {display[i] ? display[i] : <div className=''></div>}
+              {display[i+1] ? display[i+1] : <div className=''></div>}
+              {display[i+2] ? display[i+2] : <div className=''></div>}
+          </div>
+        )
+      }
+
+      return results
+    }
+
 
     return(
         <Layout>
@@ -425,10 +496,9 @@ const Shop = ({
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                {/* Replace with your content */}
-                <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
-                
-                {/*  */}
+                {/* Replace with your content */} {/* border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full */}
+                <div className="" >
+                {/*  
                 <div className="bg-white">
                   <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                     <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Lo mas reciente</h2>
@@ -449,7 +519,7 @@ const Shop = ({
                           <div className="mt-4 flex justify-between">
                             <div>
                               <h3 className="text-sm text-gray-700">
-                                <Link to={`product/${product.id}`}>
+                                <Link to={`../product/${product.id}`}>
                                   <span aria-hidden="true" className="absolute inset-0" />
                                   {product.name}
                                 </Link>
@@ -463,7 +533,10 @@ const Shop = ({
                     </div>
                   </div>
                 </div>
-                {/*  */}
+                  */}
+
+                  {products && showProducts()}
+                </div>
 
               </div>
             </div>
@@ -477,12 +550,12 @@ const Shop = ({
 
 const mapStateToProps = state => ({
   categories: state.Categories.categories,
-  products: state.Products.product,
+  products: state.Products.products,
   filtered_products: state.Products.filtered_products
 })
 
 export default connect(mapStateToProps,{
     get_categories,
     get_products,
-    get_filtered_products,
+    get_filtered_products
 })(Shop)
