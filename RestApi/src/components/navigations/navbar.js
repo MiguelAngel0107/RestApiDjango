@@ -277,12 +277,12 @@ function Navbar({
               <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                 <Popover.Group as="nav" className="flex space-x-10">
                   
-                  <NavLink to="/shop" className={window.location.pathname==='/search'?' mt-2 text-base font-medium text-gray-500 hover:text-gray-900':'mt-2 text-base font-medium text-gray-500 hover:text-gray-900'}>
+                  <NavLink to="/shop" className={window.location.pathname==='/search'?'text-base font-medium text-gray-500 hover:text-gray-900':'mt-2 text-base font-medium text-gray-500 hover:text-gray-900'}>
                     Shop
                   </NavLink>
                   
                   {/* Barra de Busqueda */}
-                  {window.location.pathname==='/test'?<></>:<SearchBox 
+                  {window.location.pathname==='/search'?<></>:<SearchBox 
                   search={search}
                   onChange={onChange}
                   onSubmit={onSubmit}

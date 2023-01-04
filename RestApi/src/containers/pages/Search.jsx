@@ -9,7 +9,7 @@ import {get_categories} from '../../redux/actions/categories'
 import {get_products, get_filtered_products} from '../../redux/actions/products'
 import ProductCard from '../../components/product/ProductCard'
 import { prices } from '../../helpers/fixedPrices'
-import Navbar from '../../components/navigations/navbar'
+import Navbar from '../../components/navigations/navbar' //test
 import { Footer } from '../../components/navigations/footer'
 
 const sortOptions = [
