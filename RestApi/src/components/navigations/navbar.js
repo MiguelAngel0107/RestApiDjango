@@ -210,6 +210,7 @@ function Navbar({
   
     const onSubmit = e => {
       e.preventDefault();
+      console.log("se ejecuto")
       get_search_products(search, category_id);
       setRender(!render);
     }

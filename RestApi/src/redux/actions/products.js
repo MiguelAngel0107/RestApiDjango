@@ -212,12 +212,12 @@ export const get_search_products = (
     };
 
     const body = JSON.stringify({
-        search,
-        category_id
+        category_id,
+        search
     });
 
     try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/products /search`, body, config);
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/products/search`, body, config);
 
         if (res.status === 200) {
             dispatch({
