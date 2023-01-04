@@ -40,7 +40,6 @@ const SearchBox = ({
                         name="search"
                         onChange={e => onChange(e)}
                         value={search}
-                        
                         className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-2 sm:text-sm border-white"
                         placeholder="Que buscas hoy?"
                     />

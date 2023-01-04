@@ -94,9 +94,9 @@ const Search = ({
     } = formData
 
     useEffect(() => {
+        window.scrollTo(0,0)
         get_categories()
         get_products()
-        window.scrollTo(0,0)
     }, [])
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
@@ -156,8 +156,8 @@ const Search = ({
 
 
     return (
-        <Layout>
-            
+        <div>
+            <Navbar/>
             <div className="bg-white">
               <div>
                 {/* Mobile filter dialog */}
@@ -609,8 +609,8 @@ const Search = ({
                 </main>
               </div>  
             </div>
-            
-        </Layout>
+            <Footer/>
+        </div>
     )
 }
 
