@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Popover, Transition, Menu } from '@headlessui/react'
 import { Navigate } from 'react-router-dom'
 import {
@@ -24,7 +24,10 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import { Link, NavLink } from 'react-router-dom'
 import Alert from '../alert'
 import { logout } from '../../redux/actions/auth'
+import { get_search_products } from '../../redux/actions/products'
+import { get_categories } from '../../redux/actions/categories'
 import { connect } from 'react-redux'
+import SearchBox from './searchBox'
 
 
 
@@ -92,11 +95,35 @@ function classNames(...classes) {
 }
 
 function Navbar({
-    isAuthenticated,
-    user,
-    logout
+   isAuthenticated,
+   user,
+   logout,
+   get_categories,
+   categories,
+   get_search_products,
+   //total_items
 }) {
+
+    //Autenticacion
     const [redirect, setRedirect] = useState(false);
+
+    
+    //Busqueda de Productos
+    const [render, setRender] = useState(false);
+    const [formData, setFormData] = useState({
+      category_id: 0,
+      search: ''
+    });
+    const { 
+      category_id, 
+      search 
+    } = formData;
+    useEffect(() => {
+      get_categories()
+    }, [])
+
+
+    //Autenticacion
     const logoutHandler = () => {
         logout()
         setRedirect(true)
@@ -105,7 +132,6 @@ function Navbar({
         window.location.reload(false)
         return <Navigate to='/' />;
     } 
-
     const authLinks = (
         <Menu as="div" className="relative inline-block text-left" >
             <div>
@@ -164,7 +190,6 @@ function Navbar({
             </Transition>
         </Menu>
     )
-
     const guestLinks = (
         <Fragment>
             <Link to="/login" className="text-base font-medium text-gray-500 hover:text-gray-900">
@@ -178,6 +203,20 @@ function Navbar({
             </Link>
         </Fragment>
     )
+
+
+    //Busqueda de Productos
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  
+    const onSubmit = e => {
+      e.preventDefault();
+      get_search_products(search, category_id);
+      setRender(!render);
+    }
+
+    if(render){
+      return <Navigate to='/search' />;
+    }
 
     return (
         <>
@@ -214,12 +253,13 @@ function Navbar({
                     Shop
                   </NavLink>
                   
-                  {/*window.location.pathname==='/search'?<></>:<SearchBox 
+                  {/* Barra de Busqueda */}
+                  {window.location.pathname==='/search'?<></>:<SearchBox 
                   search={search}
                   onChange={onChange}
                   onSubmit={onSubmit}
                   categories={categories}
-                  />*/}
+                  />}
                   
                  
                 </Popover.Group>
@@ -352,10 +392,14 @@ function Navbar({
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.Auth.isAuthenticated,
-    user: state.Auth.user
+  isAuthenticated: state.Auth.isAuthenticated,
+  user: state.Auth.user,
+  categories: state.Categories.categories,
+  //total_items: state.Cart.total_items
 })
 
 export default connect(mapStateToProps, {
-    logout
+    logout,
+    get_categories,
+    get_search_products
 })(Navbar)
