@@ -10,8 +10,9 @@ const SearchBox = ({
     return(
             <form onSubmit={e => onSubmit(e)} className="text-base font-medium text-gray-500 hover:text-gray-900">
               <div>
-                <div className="mt-1 flex rounded-md shadow-sm border border-gray-200">
+                <div className="mt-1 flex rounded-md border border-white">
                   
+                  {/* Selector de Categoria */}
                 <div className="mt-1 mx-1 px-2 py-1">
                     <select
                         onChange={e => onChange(e)}
@@ -32,7 +33,7 @@ const SearchBox = ({
 
                     </select>
                 </div>
-
+                        
                   <div className="relative flex items-stretch flex-grow focus-within:z-10">
                     <input
                         type="search"
