@@ -11,6 +11,7 @@ import ProductCard from '../../components/product/ProductCard'
 import { prices } from '../../helpers/fixedPrices'
 import Navbar from '../../components/navigations/navbar'
 import { Footer } from '../../components/navigations/footer'
+
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
   { name: 'Best Rating', href: '#', current: false },
