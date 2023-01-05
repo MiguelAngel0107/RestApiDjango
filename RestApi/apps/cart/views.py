@@ -36,6 +36,7 @@ class GetItemsView(APIView):
                 {'error': 'Something went wrong when retrieving cart items'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class AddItemView(APIView):
     def post(self, request, format=None):
         user = self.request.user
