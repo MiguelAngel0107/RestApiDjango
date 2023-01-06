@@ -5,12 +5,11 @@ import { useEffect } from "react";
 
 
 
-
 const WishlistItem = ({
     item,
     count,
     update_item,
-    remove_wishlist_item,
+    remove_item,
     render,
     setRender,
     setAlert
@@ -48,7 +47,7 @@ const WishlistItem = ({
     }
 
     const removeItemHandler = async () => {
-        await remove_wishlist_item(item);
+        await remove_item(item);
         window.location.reload(false);
     };
 
