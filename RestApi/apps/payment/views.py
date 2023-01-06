@@ -2,10 +2,10 @@ from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 
 from apps.cart.models import Cart, CartItem
-from apps.coupons.models import FixedPriceCoupon, PercentageCoupon
+#from apps.coupons.models import FixedPriceCoupon, PercentageCoupon
 from apps.orders.models import Order, OrderItem
 from apps.products.models import Product
 from apps.shipping.models import Shipping
@@ -13,32 +13,45 @@ from apps.shipping.models import Shipping
 from django.core.mail import send_mail
 import braintree
 
-gateway = braintree.BraintreeGateway(
+"""gateway = braintree.BraintreeGateway(
     braintree.Configuration(
-        environment=settings.BT_ENVIRONMENT,
-        merchant_id=settings.BT_MERCHANT_ID,
-        public_key=settings.BT_PUBLIC_KEY,
-        private_key=settings.BT_PRIVATE_KEY
+        enviroment=braintree.Environment.Sandbox,
+        merchant_id='8w8h9kdxnnjm2cs4',
+        public_key='v659p9cqtpc6fwjw',
+        private_key='3505a5465b6a829ee5d6f60695e9681c'
     )
+)"""
+
+# Configure connection to your Braintree account
+braintree.Configuration.configure(
+    braintree.Environment.Sandbox,
+    "8w8h9kdxnnjm2cs4",
+    "v659p9cqtpc6fwjw",
+    "3505a5465b6a829ee5d6f60695e9681c"
 )
 
 class GenerateTokenView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+    
     def get(self, request, format=None):
         try:
-            token = gateway.client_token.generate()
-
+            token = braintree.ClientToken.generate()
             return Response(
-                {'braintree_token': token},
-                status=status.HTTP_200_OK
+                {
+                    'braintree_token': token,   
+                },
+                   status=status.HTTP_200_OK
             )
         except:
-            return Response(
+             return Response(
                 {'error': 'Something went wrong when retrieving braintree token'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
+               )
 
 
 class GetPaymentTotalView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None):
         user = self.request.user
 
@@ -71,7 +84,7 @@ class GetPaymentTotalView(APIView):
                 if int(cart_item.count) > int(cart_item.product.quantity):
                     return Response(
                         {'error': 'Not enough items in stock'},
-                        status=status.HTTP_200_OK
+                        status=status.HTTP_404_NOT_FOUND
                     )
                 
                 total_amount = 0.0
@@ -87,7 +100,7 @@ class GetPaymentTotalView(APIView):
                 original_price = round(total_amount, 2)
 
                 # Cupones
-                if coupon_name != '':
+                """if coupon_name != '':
                     #Revisar si cupon de precio fijo es valido
                     if FixedPriceCoupon.objects.filter(name__iexact=coupon_name).exists():
                         fixed_price_coupon = FixedPriceCoupon.objects.get(
@@ -111,7 +124,7 @@ class GetPaymentTotalView(APIView):
                             total_after_coupon = total_amount
 
                 #Total despues del cupon 
-                total_after_coupon = round(total_after_coupon, 2)
+                total_after_coupon = round(total_after_coupon, 2)"""
 
                 # Impuesto estimado
                 estimated_tax = round(total_amount * tax, 2)
@@ -131,7 +144,7 @@ class GetPaymentTotalView(APIView):
 
                 return Response({
                     'original_price': f'{original_price:.2f}',
-                    'total_after_coupon': f'{total_after_coupon:.2f}',
+                    #'total_after_coupon': f'{total_after_coupon:.2f}',
                     'total_amount': f'{total_amount:.2f}',
                     'total_compare_amount': f'{total_compare_amount:.2f}',
                     'estimated_tax': f'{estimated_tax:.2f}',
@@ -148,6 +161,7 @@ class GetPaymentTotalView(APIView):
 
 
 class ProcessPaymentView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, format=None):
         user = self.request.user
         data = self.request.data
@@ -156,6 +170,7 @@ class ProcessPaymentView(APIView):
 
         nonce = data['nonce']
         shipping_id = str(data['shipping_id'])
+
         coupon_name = str(data['coupon_name'])
 
         full_name = data['full_name']
@@ -206,7 +221,7 @@ class ProcessPaymentView(APIView):
                              * float(cart_item.count))
         
         # Cupones
-        if coupon_name != '':
+        """if coupon_name != '':
             if FixedPriceCoupon.objects.filter(name__iexact=coupon_name).exists():
                 fixed_price_coupon = FixedPriceCoupon.objects.get(
                     name=coupon_name
@@ -225,7 +240,7 @@ class ProcessPaymentView(APIView):
 
                 if discount_percentage > 1 and discount_percentage < 100:
                     total_amount -= (total_amount *
-                                     (discount_percentage / 100))
+                                     (discount_percentage / 100))"""
 
         total_amount += (total_amount * tax)
 
@@ -240,7 +255,7 @@ class ProcessPaymentView(APIView):
 
         try:
             # Crear transaccion con braintree
-            newTransaction = gateway.transaction.sale(
+            newTransaction = braintree.Transaction.sale(
                 {
                     'amount': str(total_amount),
                     'payment_method_nonce': str(nonce['nonce']),
@@ -321,7 +336,7 @@ class ProcessPaymentView(APIView):
                     + '\n\nYou can go on your user dashboard to check the status of your order.'
                     + '\n\nSincerely,'
                     + '\nShop Time',
-                    'mail@ninerogues.com',
+                    'mail@owndark.com',
                     [user.email],
                     fail_silently=False
                 )
