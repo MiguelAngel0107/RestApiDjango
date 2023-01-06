@@ -124,6 +124,8 @@ class GetPaymentTotalView(APIView):
                             total_amount -= (total_amount *
                                             (discount_percentage / 100))
                             total_after_coupon = total_amount
+                else:
+                    total_after_coupon = total_amount
 
                 #Total despues del cupon 
                 total_after_coupon = round(total_after_coupon, 2)
@@ -148,7 +150,7 @@ class GetPaymentTotalView(APIView):
 
                 return Response({
                     'original_price': f'{original_price:.2f}',
-                    #'total_after_coupon': f'{total_after_coupon:.2f}',
+                    'total_after_coupon': f'{total_after_coupon:.2f}',
                     'total_amount': f'{total_amount:.2f}',
                     'total_compare_amount': f'{total_compare_amount:.2f}',
                     'estimated_tax': f'{estimated_tax:.2f}',

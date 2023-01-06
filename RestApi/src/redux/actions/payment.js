@@ -14,6 +14,7 @@ import {
 } from './types';
 
 
+
 export const get_payment_total = (
     shipping_id, 
     coupon_name
@@ -45,6 +46,7 @@ export const get_payment_total = (
     }
 }
 
+
 export const get_client_token = (
 ) => async dispatch => {
     const config = {
@@ -73,6 +75,7 @@ export const get_client_token = (
         });
     }
 }
+
 
 export const process_payment = (
     nonce,
@@ -141,8 +144,8 @@ export const process_payment = (
     window.scrollTo(0, 0);
 }
 
-export const reset = (
 
+export const reset = (
 ) => dispatch => {
     dispatch({
         type: RESET_PAYMENT_INFO

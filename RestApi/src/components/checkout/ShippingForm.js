@@ -2,17 +2,6 @@ import { QuestionMarkCircleIcon, SortAscendingIcon, UsersIcon } from '@heroicons
 import { TicketIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
-const buy = null
-const user = null
-const total_amount = null
-const total_compare_amount = null
-const estimated_tax = null
-const shipping_cost = null
-const renderPaymentInfo = null
-const apply_coupon = null
-const coupon = null
-const coupon_name = null
-const total_after_coupon = null
 
 
 const ShippingForm = ({
@@ -30,16 +19,18 @@ const ShippingForm = ({
     shipping,
     shipping_id,
 
-    //buy,
-    //total_amount,
-    //total_compare_amount,
-    //estimated_tax,
-    //shipping_cost,
-    //renderPaymentInfo,
-    //apply_coupon,
-    //coupon,
-    //coupon_name,
-    //total_after_coupon
+    buy,
+    total_amount,
+    total_compare_amount,
+    estimated_tax,
+    shipping_cost,
+    renderPaymentInfo,
+    apply_coupon,
+    coupon,
+    coupon_name,
+    total_after_coupon,
+    
+    original_price,
 }) => {
     return (
         <section
@@ -55,7 +46,7 @@ const ShippingForm = ({
                 {renderShipping()}
               </div>
               
-              {/*<div className="flex items-center justify-between">
+              {<div className="flex items-center justify-between">
                 <form onSubmit={e => apply_coupon(e)}>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         Discount Coupon
@@ -80,12 +71,12 @@ const ShippingForm = ({
                         <span>Apply Coupon</span>
                         </button>
                         
-                    </div>*
+                    </div>
                     
                 </form>
-              </div>*/}
+              </div>}
 
-               {/*
+               {
                     coupon && 
                     coupon !== null &&
                     coupon !== undefined ? (
@@ -97,18 +88,42 @@ const ShippingForm = ({
                     ) : (
                         <Fragment></Fragment>
                     )
-                */}
+                }
 
-              {/* <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex items-center text-sm text-gray-600">
-                  <span>Shipping estimate</span>
+                  <span>Original Price</span>
                   <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Learn more about how shipping is calculated</span>
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">{shipping && shipping_id !== 0 ? <>${shipping_cost}</>:<div className="text-red-500">(Please select shipping option)</div>}</dd>
-              </div>
+                <dd className="text-sm font-medium text-gray-900">${original_price}</dd>
+               </div>
+
+               {
+                coupon && 
+                coupon !== null && 
+                coupon !== undefined ?
+                <>
+                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                        <dt className="flex text-sm text-gray-600">
+                    <span>Discounted Total</span>
+                    </dt>
+                    <dd className="text-sm font-medium text-gray-900">${original_price - total_after_coupon}</dd>
+                </div>
+                </>
+                    :
+                <></>
+                }
+
+                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <dt className="flex text-sm text-gray-600">
+                  <span>Subtotal</span>
+                </dt>
+                <dd className="text-sm font-medium text-gray-900">${total_after_coupon}</dd>
+                </div> 
+
 
               <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex text-sm text-gray-600">
@@ -120,44 +135,35 @@ const ShippingForm = ({
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">${estimated_tax}</dd>
               </div>
-              
+
+
               <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                <dt className="flex text-sm text-gray-600">
-                  <span>Subtotal</span>
+                <dt className="flex items-center text-sm text-gray-600">
+                  <span>Shipping estimate</span>
+                  <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                    <span className="sr-only">Learn more about how shipping is calculated</span>
+                    <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
+                  </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">${total_compare_amount}</dd>
-              </div> */}
+                <dd className="text-sm font-medium text-gray-900">{shipping && shipping_id !== 0 ? <>${shipping_cost}</>:<div className="text-red-500">(Please select shipping option)</div>}</dd>
+               </div>
+              
+              
+
+            <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+                    <dt className="text-base font-medium text-gray-900">Order total</dt>
+                    <dd className="text-base font-medium text-gray-900">${total_amount}</dd>
+            </div>
 
 
 
-              {/*
-                  coupon && 
-                  coupon !== null && 
-                  coupon !== undefined ?
-                  <>
-                    <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                        <dt className="flex text-sm text-gray-600">
-                        <span>Discounted Total</span>
-                        </dt>
-                        <dd className="text-sm font-medium text-gray-900">${total_after_coupon}</dd>
-                    </div>
-                    <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                        <dt className="text-base font-medium text-gray-900">Order Total</dt>
-                        <dd className="text-base font-medium text-gray-900">${total_amount}</dd>
-                    </div>
-                    </>
-                        :
-                    <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                        <dt className="text-base font-medium text-gray-900">Order total</dt>
-                        <dd className="text-base font-medium text-gray-900">${total_amount}</dd>
-                    </div>
-            */}
+            
 
               
 
             </dl>
 
-            <form > {/*onSubmit={e => buy(e)}*/}
+            <form onSubmit={e => buy(e)}> {/*onSubmit={e => buy(e)}*/}
                 <div className=" px-4 py-5  mt-4 sm:px-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Shipping Address:</h3>
                 </div>
@@ -300,7 +306,7 @@ const ShippingForm = ({
                             }
                 </select>
               </div>
-            </div>
+                    </div>
                 </div>
 
                 <div className="sm:grid sm:grid-cols-3 mb-4 sm:gap-4 sm:items-start  sm:border-gray-200 sm:pt-5">
@@ -323,7 +329,7 @@ const ShippingForm = ({
                 </div>
 
                 
-            {/*renderPaymentInfo()*/}
+            {renderPaymentInfo()}
 
             </form>
           </section>
