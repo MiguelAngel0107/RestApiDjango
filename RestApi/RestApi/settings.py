@@ -36,6 +36,7 @@ ECOMMERCE_APPS=[
     'apps.category',
     'apps.products',
     'apps.cart',
+    'apps.shipping',
 ]
 
 THIRD_PARTY_APPS=[
