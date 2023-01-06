@@ -14,18 +14,27 @@ const WishlistItem = ({
     setRender,
     setAlert
 })=>{
+
     const [formData, setFormData] = useState({
         item_count: 1
     });
 
+
+
     const { item_count } = formData;
     
+
+
     useEffect(() => {
         if (count)
             setFormData({ ...formData, item_count: count });
     }, [count]);
 
+
+
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+
 
     const onSubmit = e => {
         e.preventDefault()
@@ -35,7 +44,7 @@ const WishlistItem = ({
                     await update_item(item, item_count);
                 }
                 else {
-                    setAlert('Not enough in stock', 'danger');
+                    setAlert('Not enough in stock', 'red');
                 }
                 setRender(!render);
             } catch(err) {
@@ -46,10 +55,14 @@ const WishlistItem = ({
         fetchData();
     }
 
+
+
     const removeItemHandler = async () => {
         await remove_item(item);
         window.location.reload(false);
     };
+
+
 
     return(
         <li className="flex py-6 sm:py-10">
@@ -64,6 +77,8 @@ const WishlistItem = ({
             <div className="ml-4 flex-1 flex flex-col justify-between sm:ml-6">
             <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                 <div>
+
+
                 <div className="flex justify-between">
                     <h3 className="text-sm">
                     <Link to={`/product/${item.product.id}`} className="font-medium text-gray-700 hover:text-gray-800">
@@ -71,6 +86,8 @@ const WishlistItem = ({
                     </Link>
                     </h3>
                 </div>
+
+
                 <div className="mt-1 flex text-sm">
                     <p className="text-gray-500">Color</p>
                     {/* {product.size ? (
@@ -98,6 +115,7 @@ const WishlistItem = ({
                         <option>8</option>
                         <option>9</option>
                     </select>
+                    
                     <button 
                         type="submit"
                         className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500">
@@ -121,7 +139,7 @@ const WishlistItem = ({
                     item.product && 
                     item.product !== null &&
                     item.product !== undefined && 
-                    item.product.quantity > 0 ? 
+                    item.product.quantity >= item_count ? 
                 (
                     <>
                     <CheckIcon className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
