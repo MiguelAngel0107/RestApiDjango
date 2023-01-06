@@ -101,21 +101,12 @@ const ShippingForm = ({
                 <dd className="text-sm font-medium text-gray-900">${original_price}</dd>
                </div>
 
-               {
-                coupon && 
-                coupon !== null && 
-                coupon !== undefined ?
-                <>
-                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+               <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                         <dt className="flex text-sm text-gray-600">
                     <span>Discounted Total</span>
                     </dt>
                     <dd className="text-sm font-medium text-gray-900">${original_price - total_after_coupon}</dd>
                 </div>
-                </>
-                    :
-                <></>
-                }
 
                 <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex text-sm text-gray-600">
