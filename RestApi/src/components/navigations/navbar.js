@@ -31,6 +31,8 @@ import SearchBox from './searchBox'
 
 import { ShoppingCartIcon } from '@heroicons/react/outline'
 
+import { get_item_total } from '../../redux/actions/cart'
+
 
 
 const solutions = [
@@ -125,7 +127,8 @@ function Navbar({
    get_categories,
    categorias,
    get_search_products,
-   total_items
+   total_items,
+   get_item_total
 }) {
 
     //Autenticacion
@@ -144,6 +147,7 @@ function Navbar({
     } = formData;
     useEffect(() => {
       get_categories()
+      get_item_total()
     }, [])
 
 
@@ -430,5 +434,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     logout,
     get_categories,
-    get_search_products
+    get_search_products,
+    get_item_total
 })(Navbar)
