@@ -16,7 +16,7 @@ import Shop from './containers/Shop'
 import ProductDetail from './containers/pages/productDetail';
 import Search from './containers/pages/Search';
 
-import Cart from './redux/reducers/cart';
+import Cart from './containers/pages/Cart';
 
 
 function App() {

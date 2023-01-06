@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { login } from '../../redux/actions/auth'
 import Loader from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router'
+
+
+
 
 const Login = ({
     login,
@@ -23,6 +27,8 @@ const Login = ({
         password
     } = formData;
 
+    const [activated, setActivated] = useState(false);
+
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const onSubmit = e => {
@@ -31,8 +37,11 @@ const Login = ({
             email,
             password
         )
-
+        setActivated(true);
     }
+
+    if (activated)
+    return <Navigate to='/' />;
 
     return (
         <Layout>
