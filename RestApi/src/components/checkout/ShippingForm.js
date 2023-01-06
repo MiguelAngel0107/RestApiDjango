@@ -2,8 +2,21 @@ import { QuestionMarkCircleIcon, SortAscendingIcon, UsersIcon } from '@heroicons
 import { TicketIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 
+const buy = null
+const user = null
+const total_amount = null
+const total_compare_amount = null
+const estimated_tax = null
+const shipping_cost = null
+const renderPaymentInfo = null
+const apply_coupon = null
+const coupon = null
+const coupon_name = null
+const total_after_coupon = null
+
 
 const ShippingForm = ({
+    user,
     full_name,
     address_line_1,
     address_line_2,
@@ -13,20 +26,20 @@ const ShippingForm = ({
     telephone_number,
     countries,
     onChange,
-    buy,
-    user,
     renderShipping,
-    total_amount,
-    total_compare_amount,
-    estimated_tax,
-    shipping_cost,
-    shipping_id,
     shipping,
-    renderPaymentInfo,
-    apply_coupon,
-    coupon,
-    coupon_name,
-    total_after_coupon
+    shipping_id,
+
+    //buy,
+    //total_amount,
+    //total_compare_amount,
+    //estimated_tax,
+    //shipping_cost,
+    //renderPaymentInfo,
+    //apply_coupon,
+    //coupon,
+    //coupon_name,
+    //total_after_coupon
 }) => {
     return (
         <section
@@ -42,7 +55,7 @@ const ShippingForm = ({
                 {renderShipping()}
               </div>
               
-              <div className="flex items-center justify-between">
+              {/*<div className="flex items-center justify-between">
                 <form onSubmit={e => apply_coupon(e)}>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         Discount Coupon
@@ -67,12 +80,12 @@ const ShippingForm = ({
                         <span>Apply Coupon</span>
                         </button>
                         
-                    </div>
+                    </div>*
                     
                 </form>
-              </div>
+              </div>*/}
 
-              {
+               {/*
                     coupon && 
                     coupon !== null &&
                     coupon !== undefined ? (
@@ -84,9 +97,9 @@ const ShippingForm = ({
                     ) : (
                         <Fragment></Fragment>
                     )
-                }
+                */}
 
-              <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
+              {/* <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt className="flex items-center text-sm text-gray-600">
                   <span>Shipping estimate</span>
                   <a href="#" className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
@@ -113,9 +126,11 @@ const ShippingForm = ({
                   <span>Subtotal</span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">${total_compare_amount}</dd>
-              </div>
+              </div> */}
 
-              {
+
+
+              {/*
                   coupon && 
                   coupon !== null && 
                   coupon !== undefined ?
@@ -136,13 +151,13 @@ const ShippingForm = ({
                         <dt className="text-base font-medium text-gray-900">Order total</dt>
                         <dd className="text-base font-medium text-gray-900">${total_amount}</dd>
                     </div>
-              }
+            */}
 
               
 
             </dl>
 
-            <form onSubmit={e => buy(e)}>
+            <form > {/*onSubmit={e => buy(e)}*/}
                 <div className=" px-4 py-5  mt-4 sm:px-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Shipping Address:</h3>
                 </div>
@@ -308,7 +323,7 @@ const ShippingForm = ({
                 </div>
 
                 
-            {renderPaymentInfo()}
+            {/*renderPaymentInfo()*/}
 
             </form>
           </section>

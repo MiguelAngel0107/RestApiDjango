@@ -24,17 +24,56 @@ import ShippingForm from '../../components/checkout/ShippingForm'
 
 const Checkout = ({
     isAuthenticated,
+    user,
     items,
     update_item,
     remove_item,
-    setAlert
+    setAlert,
 
-
+    get_shipping_options,
+    shipping
 }) => {
     
+    const [formData, setFormData] = useState({
+        full_name: '',
+        address_line_1: '',
+        address_line_2: '',
+        city: '',
+        state_province_region: '',
+        postal_zip_code: '',
+        country_region: 'Peru',
+        telephone_number: '',
+        coupon_name: '',
+        shipping_id: 0,
+    });
+
+    const [data, setData] = useState({
+        instance: {}
+    });
+
+    const { 
+        full_name,
+        address_line_1,
+        address_line_2,
+        city,
+        state_province_region,
+        postal_zip_code,
+        country_region,
+        telephone_number,
+        coupon_name,
+        shipping_id,
+    } = formData;
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    useEffect(() => {
+        window.scrollTo(0,0)
+        get_shipping_options()
+    }, [])
+
     const [render, setRender] = useState(false);
-
-
+    
+    
     if(!isAuthenticated){
         return <Navigate to='/' />
     }
@@ -69,6 +108,31 @@ const Checkout = ({
         )
     }
 
+    const renderShipping = () => {
+        if (shipping && shipping !== null && shipping !== undefined) {
+            return (
+                <div className='mb-5'>
+                    {
+                        shipping.map((shipping_option, index) => (
+                            <div key={index}>
+                                <input
+                                    onChange={e => onChange(e)}
+                                    value={shipping_option.id}
+                                    name='shipping_id'
+                                    type='radio'
+                                    required
+                                />
+                                <label className='ml-4'>
+                                    {shipping_option.name} - ${shipping_option.price} ({shipping_option.time_to_delivery})
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
+            );
+        }
+    };
+
     return (
         <Layout>
             <div className="bg-white">
@@ -85,9 +149,10 @@ const Checkout = ({
             </ul>
           </section>
 
-          {/* Order summary */}
+          { /*Order summary */}
 
-          {/*<ShippingForm
+            <ShippingForm
+              user={user}
               full_name={full_name}
               address_line_1={address_line_1}
               address_line_2={address_line_2}
@@ -97,21 +162,23 @@ const Checkout = ({
               telephone_number={telephone_number}
               countries={countries}
               onChange={onChange}
-              buy={buy}
-              user={user}
+              
               renderShipping={renderShipping}
-              total_amount={total_amount}
-              total_after_coupon={total_after_coupon}
-              total_compare_amount={total_compare_amount}
-              estimated_tax={estimated_tax}
-              shipping_cost={shipping_cost}
               shipping_id={shipping_id}
               shipping={shipping}
-              renderPaymentInfo={renderPaymentInfo}
-              coupon={coupon}
-              apply_coupon={apply_coupon}
-              coupon_name={coupon_name}
-            />*/}
+
+              />
+              {//buy={buy}
+              //total_amount={total_amount}
+              //total_after_coupon={total_after_coupon}
+              //total_compare_amount={total_compare_amount}
+              //estimated_tax={estimated_tax}
+              //shipping_cost={shipping_cost}
+              //renderPaymentInfo={renderPaymentInfo}
+              //coupon={coupon}
+              //apply_coupon={apply_coupon}
+              //coupon_name={coupon_name}
+            }
 
           
         </div>
@@ -122,15 +189,17 @@ const Checkout = ({
 }
 const mapStateToProps = state => ({
     isAuthenticated: state.Auth.isAuthenticated,
+    user: state.Auth.user,
     items: state.Cart.items,
 
+    shipping: state.Shipping.shipping,
 
 })
 
 export default connect(mapStateToProps, {
     update_item,
     remove_item,
-    setAlert
+    setAlert,
 
-
+    get_shipping_options
 })(Checkout)
