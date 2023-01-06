@@ -16,6 +16,8 @@ import Shop from './containers/Shop'
 import ProductDetail from './containers/pages/productDetail';
 import Search from './containers/pages/Search';
 
+import Cart from './redux/reducers/cart';
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
           {/*Error Display*/}
           <Route path="*" element={<Error404/>}/>
           <Route exact path="/" element={<Home/>}/>
+          <Route exact path='/cart' element={<Cart/>}/>
 
           {/*Authentication*/}
           <Route exact path='/signup' element={<Signup/>}/>
