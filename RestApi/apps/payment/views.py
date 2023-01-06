@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 
 from apps.cart.models import Cart, CartItem
-#from apps.coupons.models import FixedPriceCoupon, PercentageCoupon
+from apps.coupons.models import FixedPriceCoupon, PercentageCoupon
 from apps.orders.models import Order, OrderItem
 from apps.products.models import Product
 from apps.shipping.models import Shipping
@@ -99,8 +99,10 @@ class GetPaymentTotalView(APIView):
                 total_compare_amount = round(total_compare_amount, 2)
                 original_price = round(total_amount, 2)
 
+
+
                 # Cupones
-                """if coupon_name != '':
+                if coupon_name != '':
                     #Revisar si cupon de precio fijo es valido
                     if FixedPriceCoupon.objects.filter(name__iexact=coupon_name).exists():
                         fixed_price_coupon = FixedPriceCoupon.objects.get(
@@ -124,7 +126,9 @@ class GetPaymentTotalView(APIView):
                             total_after_coupon = total_amount
 
                 #Total despues del cupon 
-                total_after_coupon = round(total_after_coupon, 2)"""
+                total_after_coupon = round(total_after_coupon, 2)
+
+                
 
                 # Impuesto estimado
                 estimated_tax = round(total_amount * tax, 2)
@@ -220,8 +224,10 @@ class ProcessPaymentView(APIView):
             total_amount += (float(cart_item.product.price)
                              * float(cart_item.count))
         
+
+
         # Cupones
-        """if coupon_name != '':
+        if coupon_name != '':
             if FixedPriceCoupon.objects.filter(name__iexact=coupon_name).exists():
                 fixed_price_coupon = FixedPriceCoupon.objects.get(
                     name=coupon_name
@@ -240,7 +246,9 @@ class ProcessPaymentView(APIView):
 
                 if discount_percentage > 1 and discount_percentage < 100:
                     total_amount -= (total_amount *
-                                     (discount_percentage / 100))"""
+                                     (discount_percentage / 100))
+
+
 
         total_amount += (total_amount * tax)
 
