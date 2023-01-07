@@ -27,6 +27,7 @@ import { Link } from 'react-router-dom';
 
 
 import DashboardLink from '../../components/dashboard/DashboardLink';
+import {get_user_profile} from '../../redux/actions/profile'
 
 
 const navigation = [
@@ -54,7 +55,8 @@ const Dashboard = ({
     get_item_total,
     orders,
     isAuthenticated,
-    user
+    user,
+    get_user_profile
 }) => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -64,6 +66,7 @@ const Dashboard = ({
         get_total()
         get_item_total()
         list_orders()
+        get_user_profile()
     }, [])
 
     if (!isAuthenticated)
@@ -330,5 +333,6 @@ export default connect(mapStateToProps, {
     list_orders,
     get_items,
     get_total,
-    get_item_total
+    get_item_total,
+    get_user_profile
 })(Dashboard)
