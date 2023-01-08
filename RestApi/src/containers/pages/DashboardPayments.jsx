@@ -329,7 +329,7 @@ const DashboardPayments =({
                       </dd>
                     </div>
                     <div>
-                      <dt className="font-medium text-gray-900">Shipping</dt>
+                      <dt className="font-medium text-gray-900">Shipping-{}</dt>
                       <dd className="mt-3 text-gray-500 space-y-3">
                         <p>$ {product.shipping_price}</p>
                         <p>$ {product.amount} Total Cost</p>
