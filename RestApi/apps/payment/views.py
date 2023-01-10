@@ -13,6 +13,11 @@ from apps.shipping.models import Shipping
 from django.core.mail import send_mail
 import braintree
 
+import environ, os
+
+env = environ.Env()
+environ.Env.read_env()
+
 """gateway = braintree.BraintreeGateway(
     braintree.Configuration(
         enviroment=braintree.Environment.Sandbox,
@@ -21,13 +26,16 @@ import braintree
         private_key='3505a5465b6a829ee5d6f60695e9681c'
     )
 )"""
+BT_MERCHANT_ID = os.environ.get('BT_MERCHANT_ID')
+BT_PUBLIC_KEY = os.environ.get('BT_PUBLIC_KEY')
+BT_PRIVATE_KEY =  os.environ.get('BT_PRIVATE_KEY')
 
 # Configure connection to your Braintree account
 braintree.Configuration.configure(
     braintree.Environment.Sandbox,
-    "8w8h9kdxnnjm2cs4",
-    "v659p9cqtpc6fwjw",
-    "3505a5465b6a829ee5d6f60695e9681c"
+    BT_MERCHANT_ID,
+    BT_PUBLIC_KEY,
+    BT_PRIVATE_KEY
 )
 
 class GenerateTokenView(APIView):
