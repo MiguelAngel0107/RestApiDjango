@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import environ
 from datetime import timedelta
+# Python-decouple para las variables de Braintree
+from decouple import config
 
 env = environ.Env()
 environ.Env.read_env()
@@ -213,10 +215,9 @@ DJOSER = {
     },
 }
 
-BT_ENVIRONMENT = os.environ.get('BT_ENVIRONMENT')
-BT_MERCHANT_ID = os.environ.get('BT_MERCHANT_ID')
-BT_PUBLIC_KEY = os.environ.get('BT_PUBLIC_KEY')
-BT_PRIVATE_KEY = os.environ.get('BT_PRIVATE_KEY')
+BT_MERCHANT_ID = config('BT_MERCHANT_ID')
+BT_PUBLIC_KEY = config('BT_PUBLIC_KEY')
+BT_PRIVATE_KEY = config('BT_PRIVATE_KEY')
 
 
 #DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

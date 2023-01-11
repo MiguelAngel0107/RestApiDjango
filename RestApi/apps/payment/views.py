@@ -1,5 +1,6 @@
 from django.conf import settings
 
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -13,11 +14,6 @@ from apps.shipping.models import Shipping
 from django.core.mail import send_mail
 import braintree
 
-import environ, os
-
-env = environ.Env()
-environ.Env.read_env()
-
 """gateway = braintree.BraintreeGateway(
     braintree.Configuration(
         enviroment=braintree.Environment.Sandbox,
@@ -26,9 +22,10 @@ environ.Env.read_env()
         private_key='3505a5465b6a829ee5d6f60695e9681c'
     )
 )"""
-BT_MERCHANT_ID = os.environ.get('BT_MERCHANT_ID')
-BT_PUBLIC_KEY = os.environ.get('BT_PUBLIC_KEY')
-BT_PRIVATE_KEY =  os.environ.get('BT_PRIVATE_KEY')
+
+BT_MERCHANT_ID = settings.BT_MERCHANT_ID
+BT_PUBLIC_KEY = settings.BT_PUBLIC_KEY
+BT_PRIVATE_KEY =  settings.BT_PRIVATE_KEY
 
 # Configure connection to your Braintree account
 braintree.Configuration.configure(
@@ -43,19 +40,21 @@ class GenerateTokenView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request, format=None):
-        try:
-            token = braintree.ClientToken.generate()
-            return Response(
-                {
-                    'braintree_token': token,   
-                },
-                   status=status.HTTP_200_OK
-            )
-        except:
-             return Response(
-                {'error': 'Something went wrong when retrieving braintree token'},
-                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
-               )
+        if BT_MERCHANT_ID != None :
+            try:
+                token = braintree.ClientToken.generate()
+                return Response(
+                    {
+                        'braintree_token': token,   
+                    },
+                    status=status.HTTP_200_OK
+                )
+            except:
+                return Response(
+                    {'error': 'Something went wrong when retrieving braintree token',
+                    'info':[BT_MERCHANT_ID, BT_PRIVATE_KEY, BT_PUBLIC_KEY]},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
 
 
 class GetPaymentTotalView(APIView):
